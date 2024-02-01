@@ -1,0 +1,35 @@
+---
+version: "2.0"
+services:
+  service-1:
+    image: webhippie/minecraft-vanilla
+    expose:
+      - port: 80
+        as: 80
+        to:
+          - global: true
+      - port: 25565
+        as: 25565
+        to:
+          - global: true
+profiles:
+  compute:
+    service-1:
+      resources:
+        cpu:
+          units: 1
+        memory:
+          size: 2Gi
+        storage:
+          - size: 10Gi
+  placement:
+    dcloud:
+      pricing:
+        service-1:
+          denom: uakt
+          amount: 1000
+deployment:
+  service-1:
+    dcloud:
+      profile: service-1
+      count: 1
